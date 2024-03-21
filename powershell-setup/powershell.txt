@@ -1,0 +1,96 @@
+$PSVersionTable.PSVersion
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Confirm
+PowerShellGet\Install-Module posh-git -Scope CurrentUser -Force
+Import-Module posh-git
+Add-PoshGitToProfile -AllHosts
+Install-Module posh-git -Scope CurrentUser
+Install-Module oh-my-posh -Scope CurrentUser
+Set-Prompt
+Set-Theme Robbyrussell
+if (!(Test-Path -Path $PROFILE )) { New-Item -Type File -Path $PROFILE -Force }
+notepad $PROFILE
+
+Da moet in de textfile:
+Import-Module posh-git
+Import-Module oh-my-posh
+Set-Theme Robbyrussell
+# Shows navigable menu of all options when hitting Tab
+Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
+# Autocompletion for arrow keys
+Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
+
+$ThemeSettings.GitSymbols.BranchSymbol = [char]::ConvertFromUtf32(0xE0A0)
+
+Download en set font:
+https://github.com/powerline/fonts/blob/master/DejaVuSansMono/DejaVu%20Sans%20Mono%20for%20Powerline.ttf
+
+Windows Terminal config:
+
+{
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+
+    "profiles":
+    {
+        "defaults":
+        {
+            "colorScheme": "Campbell",
+            "fontSize" : 21,
+            "startingDirectory" : "d:\\Documenten"
+        },
+        "list":
+        [
+            {
+                // Make changes here to the powershell.exe profile
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "name": "Windows PowerShell",
+                "commandline": "powershell.exe",
+                "hidden": false
+            },
+            {
+                // Make changes here to the cmd.exe profile
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "name": "cmd",
+                "commandline": "cmd.exe",
+                "hidden": false
+            },
+            {
+                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+                "hidden": false,
+                "name": "Ubuntu",
+                "source": "Windows.Terminal.Wsl",
+	"startingDirectory" : "h:\\Films"
+            },
+            {
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "hidden": false,
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure"
+            }
+        ]
+    },
+
+    // Add custom color schemes to this array
+    "schemes": [],
+
+    // Add any keybinding overrides to this array.
+    // To unbind a default keybinding, set the command to "unbound"
+    "keybindings": [
+        {
+            "command" : "closeTab",
+            "keys" : 
+            [
+                "ctrl+w"
+            ]
+        },
+        {
+            "command" : "newTab",
+            "keys" :
+            [
+                "ctrl+t"
+            ]
+        }
+    ]
+}
