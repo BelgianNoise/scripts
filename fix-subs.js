@@ -1,6 +1,12 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 
+// Take cli param to select which subtitle track to extract
+let subTrack = 0;
+if (process.argv.length > 2) {
+  subTrack = parseInt(process.argv[2]);
+}
+
 const files = fs.readdirSync('.').filter(file => file.endsWith('.mkv'));
 
 files.forEach(filename => {
@@ -14,7 +20,7 @@ files.forEach(filename => {
   } else {
     try {
       // extract the subtitle stream into an SRT file
-      execSync(`ffmpeg -n -i "${filename}" "${subtitle}"`);
+      execSync(`ffmpeg -n -i "${filename}" -map 0:s:${subTrack} "${subtitle}"`);
 
       // replace all occurences of " size="[0-9]+"" from the SRT file
       let srtContent = fs.readFileSync(subtitle, 'utf8');
